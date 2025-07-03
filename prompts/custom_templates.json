@@ -1,0 +1,15 @@
+{
+  "custom_templates": {
+    "site_selection_detailed": {
+      "name": "Detailed Site Selection Analysis",
+      "prompt_type": "workflow_planning",
+      "system_prompt": "You are an expert in site selection analysis...",
+      "user_template": "Analyze this site selection request: {user_query}",
+      "tags": [
+        "site_selection",
+        "detailed",
+        "custom"
+      ]
+    }
+  }
+}
