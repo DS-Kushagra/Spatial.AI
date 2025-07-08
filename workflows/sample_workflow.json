@@ -1,0 +1,27 @@
+{
+  "workflow_id": "test_workflow_001",
+  "name": "School Buffer Analysis",
+  "description": "Test workflow to buffer schools and perform basic operations",
+  "steps": [
+    {
+      "name": "load_schools",
+      "operation": "load",
+      "layer": "test_schools.geojson",
+      "description": "Load school points"
+    },
+    {
+      "name": "buffer_schools",
+      "operation": "buffer",
+      "input": "load_schools",
+      "distance": 1000,
+      "description": "Create 1km buffer around schools"
+    },
+    {
+      "name": "export_result",
+      "operation": "export",
+      "input": "buffer_schools",
+      "filename": "buffered_schools.geojson",
+      "description": "Export buffered results"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+"type": "FeatureCollection",
+"name": "bangalore_roads",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "road_type": "arterial", "name": "Test Road 1", "road_id": "RD_001" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.698160668788887, 12.985869691636445 ], [ 77.626033410571324, 12.962921079949854 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "collector", "name": "Test Road 2", "road_id": "RD_002" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.760296319913593, 13.12753179397969 ], [ 77.662569479423027, 13.120766268807573 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "collector", "name": "Test Road 3", "road_id": "RD_003" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.613825322213799, 12.805528854020578 ], [ 77.708524324170781, 12.706673833170168 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "arterial", "name": "Test Road 4", "road_id": "RD_004" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.761890385609206, 13.116465571512004 ], [ 77.832571522807996, 13.075054335784511 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "collector", "name": "Test Road 5", "road_id": "RD_005" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.521936923306427, 13.065805352541213 ], [ 77.621663639340781, 13.083380180796489 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "arterial", "name": "Test Road 6", "road_id": "RD_006" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.664566959835824, 12.832736256182354 ], [ 77.66924201707279, 12.776436605830266 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "highway", "name": "Test Road 7", "road_id": "RD_007" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.556066658489399, 13.117983307558886 ], [ 77.457840360875664, 13.163001728361554 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "collector", "name": "Test Road 8", "road_id": "RD_008" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.692461571310432, 13.085424654930305 ], [ 77.763087334221808, 13.173154464936232 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "collector", "name": "Test Road 9", "road_id": "RD_009" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.476308118385205, 13.14975802590325 ], [ 77.567863902058122, 13.050260951275787 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "arterial", "name": "Test Road 10", "road_id": "RD_010" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.630431125522961, 13.118760444923085 ], [ 77.579252116712524, 13.154211770949226 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "arterial", "name": "Test Road 11", "road_id": "RD_011" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.61837947273186, 12.994587185286811 ], [ 77.615188129917826, 12.938587911012768 ] ] } },
+{ "type": "Feature", "properties": { "road_type": "arterial", "name": "Test Road 12", "road_id": "RD_012" }, "geometry": { "type": "LineString", "coordinates": [ [ 77.488646062709037, 12.899467842043407 ], [ 77.452229558413094, 12.914956369194938 ] ] } }
+]
+}

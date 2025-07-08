@@ -1,0 +1,22 @@
+{
+"type": "FeatureCollection",
+"name": "bangalore_schools",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "name": "Test School 1", "type": "primary", "student_capacity": 828, "school_id": "SCH_001" }, "geometry": { "type": "Point", "coordinates": [ 77.704312398797626, 12.885219036831302 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 2", "type": "higher_secondary", "student_capacity": 558, "school_id": "SCH_002" }, "geometry": { "type": "Point", "coordinates": [ 77.68831611640077, 12.828916018717081 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 3", "type": "secondary", "student_capacity": 255, "school_id": "SCH_003" }, "geometry": { "type": "Point", "coordinates": [ 77.64924749660311, 12.978175321545322 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 4", "type": "higher_secondary", "student_capacity": 262, "school_id": "SCH_004" }, "geometry": { "type": "Point", "coordinates": [ 77.755909055130545, 12.986534224594145 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 5", "type": "primary", "student_capacity": 957, "school_id": "SCH_005" }, "geometry": { "type": "Point", "coordinates": [ 77.783238780404176, 13.028450705312041 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 6", "type": "primary", "student_capacity": 262, "school_id": "SCH_006" }, "geometry": { "type": "Point", "coordinates": [ 77.447159044258115, 12.999005911337445 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 7", "type": "secondary", "student_capacity": 909, "school_id": "SCH_007" }, "geometry": { "type": "Point", "coordinates": [ 77.704786492788017, 13.096568743260599 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 8", "type": "higher_secondary", "student_capacity": 691, "school_id": "SCH_008" }, "geometry": { "type": "Point", "coordinates": [ 77.676389883960525, 13.057434577784964 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 9", "type": "higher_secondary", "student_capacity": 444, "school_id": "SCH_009" }, "geometry": { "type": "Point", "coordinates": [ 77.543443579725775, 12.987455411096052 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 10", "type": "primary", "student_capacity": 264, "school_id": "SCH_010" }, "geometry": { "type": "Point", "coordinates": [ 77.759001018335312, 13.046943778954455 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 11", "type": "secondary", "student_capacity": 940, "school_id": "SCH_011" }, "geometry": { "type": "Point", "coordinates": [ 77.518208713972996, 13.13822824429085 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 12", "type": "primary", "student_capacity": 314, "school_id": "SCH_012" }, "geometry": { "type": "Point", "coordinates": [ 77.503668905478023, 12.890599475320606 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 13", "type": "higher_secondary", "student_capacity": 337, "school_id": "SCH_013" }, "geometry": { "type": "Point", "coordinates": [ 77.526327599428029, 13.040821245615476 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 14", "type": "primary", "student_capacity": 955, "school_id": "SCH_014" }, "geometry": { "type": "Point", "coordinates": [ 77.758025973083775, 13.118615473307752 ] } },
+{ "type": "Feature", "properties": { "name": "Test School 15", "type": "higher_secondary", "student_capacity": 616, "school_id": "SCH_015" }, "geometry": { "type": "Point", "coordinates": [ 77.64240764484336, 13.192692721838185 ] } }
+]
+}

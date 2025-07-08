@@ -1,0 +1,27 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Test School 1",
+        "type": "primary"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [76.2673, 9.9312]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Test School 2",
+        "type": "secondary"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [76.27, 9.935]
+      }
+    }
+  ]
+}
