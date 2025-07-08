@@ -253,21 +253,41 @@ Provide systematic error analysis reasoning.""")
         start_time = time.time()
         
         try:
-            # Generate reasoning using Groq
-            messages = self.query_understanding_prompt.format_messages(query=query)
-            
-            # Convert LangChain messages to Groq format
-            groq_messages = []
-            for msg in messages:
-                if hasattr(msg, 'type'):
-                    role = "system" if msg.type == "system" else "user"
-                else:
-                    role = "user"
-                groq_messages.append({"role": role, "content": msg.content})
-            
+            # Enhanced prompt for better step-by-step reasoning
+            enhanced_prompt = f"""You are an expert GIS analyst. Analyze this spatial query using clear step-by-step reasoning:
+
+Query: "{query}"
+
+Please provide detailed step-by-step reasoning in the following format:
+
+STEP 1: Query Understanding
+- What is the user trying to accomplish?
+- What are the key spatial components?
+
+STEP 2: Data Requirements  
+- What datasets will be needed?
+- What spatial operations are required?
+
+STEP 3: Workflow Planning
+- What is the logical sequence of operations?
+- What are the dependencies between steps?
+
+STEP 4: Constraints and Considerations
+- What constraints must be considered?
+- What are potential challenges?
+
+STEP 5: Expected Outcomes
+- What will the final result look like?
+- How will success be measured?
+
+Provide clear, detailed reasoning for each step."""
+
             response = self.client.chat.completions.create(
                 model=self.model,
-                messages=groq_messages,
+                messages=[
+                    {"role": "system", "content": self.system_prompt},
+                    {"role": "user", "content": enhanced_prompt}
+                ],
                 max_tokens=self.max_tokens,
                 temperature=self.temperature,
                 top_p=self.top_p
@@ -275,17 +295,21 @@ Provide systematic error analysis reasoning.""")
             
             reasoning_text = response.choices[0].message.content
             
-            # Extract confidence from reasoning
+            # Extract confidence and other components
             confidence = self._extract_confidence(reasoning_text)
+            evidence = self._extract_evidence(reasoning_text)
+            conclusion = self._extract_conclusion(reasoning_text)
+            alternatives = self._extract_alternatives(reasoning_text)
             
             reasoning_step = ReasoningStep(
                 step_id="query_understanding_001",
                 reasoning_type=ReasoningType.QUERY_UNDERSTANDING,
                 question=f"How should I interpret this spatial query: '{query}'?",
                 reasoning=reasoning_text,
-                conclusion=self._extract_conclusion(reasoning_text),
+                conclusion=conclusion,
                 confidence=confidence,
-                evidence=self._extract_evidence(reasoning_text)
+                evidence=evidence,
+                alternatives=alternatives
             )
             
             elapsed_time = time.time() - start_time
@@ -301,7 +325,9 @@ Provide systematic error analysis reasoning.""")
                 question=f"How should I interpret this spatial query: '{query}'?",
                 reasoning=f"Error occurred during reasoning: {str(e)}",
                 conclusion="Unable to complete reasoning due to error",
-                confidence=0.0
+                confidence=0.0,
+                evidence=[],
+                alternatives=["Manual analysis required", "Retry with simplified query"]
             )
 
     def reason_about_workflow(self, parsed_query: ParsedQuery) -> ReasoningStep:
