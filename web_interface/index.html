@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spatial.AI - GIS Workflow Generation Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Header -->
+      <header class="dashboard-header">
+        <div class="header-content">
+          <div class="logo-section">
+            <i class="fas fa-globe-americas"></i>
+            <h1>Spatial.AI</h1>
+            <span class="tagline">AI-Powered GIS Workflow Generation</span>
+          </div>
+          <div class="header-actions">
+            <div class="api-status" id="apiStatus">
+              <i class="fas fa-circle status-dot"></i>
+              <span>API Status</span>
+            </div>
+            <button class="btn-secondary" id="settingsBtn">
+              <i class="fas fa-cog"></i> Settings
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <main class="dashboard-main">
+        <!-- Query Input Section -->
+        <section class="query-section">
+          <div class="query-container">
+            <div class="query-header">
+              <h2>
+                <i class="fas fa-microphone-alt"></i> Natural Language Query
+              </h2>
+              <div class="query-samples">
+                <button
+                  class="sample-btn"
+                  data-query="Find best locations for schools in Bangalore avoiding flood zones and ensuring 500m from main roads"
+                >
+                  <i class="fas fa-school"></i> School Site Selection
+                </button>
+                <button
+                  class="sample-btn"
+                  data-query="Identify optimal solar farm locations in Gujarat considering slope and land use"
+                >
+                  <i class="fas fa-solar-panel"></i> Solar Farm Planning
+                </button>
+                <button
+                  class="sample-btn"
+                  data-query="Map flood risk zones in Kerala using elevation and rainfall data"
+                >
+                  <i class="fas fa-water"></i> Flood Risk Analysis
+                </button>
+                <button
+                  class="sample-btn"
+                  data-query="Find suitable hospital locations within 2km of residential areas in Mumbai"
+                >
+                  <i class="fas fa-hospital"></i> Hospital Placement
+                </button>
+              </div>
+            </div>
+            <div class="query-input-container">
+              <textarea
+                id="queryInput"
+                placeholder="Describe your spatial analysis needs in natural language..."
+                rows="3"
+              ></textarea>
+              <div class="query-actions">
+                <div class="query-options">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="includeReasoning" checked />
+                    <span class="checkmark"></span>
+                    Include Chain-of-Thought Reasoning
+                  </label>
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="includeWorkflow" checked />
+                    <span class="checkmark"></span>
+                    Generate Workflow Steps
+                  </label>
+                </div>
+                <button class="btn-primary analyze-btn" id="analyzeBtn">
+                  <i class="fas fa-brain"></i>
+                  <span>Analyze Query</span>
+                  <div class="loading-spinner" style="display: none"></div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Results Grid -->
+        <section class="results-grid">
+          <!-- Chain-of-Thought Reasoning Panel -->
+          <div class="panel reasoning-panel">
+            <div class="panel-header">
+              <h3><i class="fas fa-brain"></i> Chain-of-Thought Reasoning</h3>
+              <div class="panel-actions">
+                <button
+                  class="btn-icon"
+                  id="exportReasoning"
+                  title="Export Reasoning"
+                >
+                  <i class="fas fa-download"></i>
+                </button>
+                <button class="btn-icon" id="toggleReasoning" title="Minimize">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="panel-content" id="reasoningContent">
+              <div class="empty-state">
+                <i class="fas fa-lightbulb"></i>
+                <p>Submit a query to see AI reasoning process</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Map Panel -->
+          <div class="panel map-panel">
+            <div class="panel-header">
+              <h3><i class="fas fa-map"></i> Interactive Map</h3>
+              <div class="panel-actions">
+                <div class="map-controls">
+                  <button
+                    class="btn-icon"
+                    id="layerToggle"
+                    title="Toggle Layers"
+                  >
+                    <i class="fas fa-layer-group"></i>
+                  </button>
+                  <button
+                    class="btn-icon"
+                    id="fullscreenMap"
+                    title="Fullscreen"
+                  >
+                    <i class="fas fa-expand"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="panel-content">
+              <div id="mapContainer"></div>
+              <div class="map-legend" id="mapLegend">
+                <h4>Legend</h4>
+                <div class="legend-items" id="legendItems">
+                  <!-- Legend items will be populated dynamically -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow Visualization Panel -->
+          <div class="panel workflow-viz-panel">
+            <div class="panel-header">
+              <h3>
+                <i class="fas fa-project-diagram"></i> Workflow Visualization
+              </h3>
+              <div class="panel-actions">
+                <button class="btn-secondary" id="downloadWorkflow">
+                  <i class="fas fa-download"></i> Download JSON
+                </button>
+                <button class="btn-secondary" id="downloadWorkflowYAML">
+                  <i class="fas fa-download"></i> Download YAML
+                </button>
+              </div>
+            </div>
+            <div class="panel-content" id="workflowVisualization">
+              <div class="empty-state">
+                <i class="fas fa-project-diagram"></i>
+                <p>Workflow diagram will appear here</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workflow Output Panel -->
+          <div class="panel workflow-panel">
+            <div class="panel-header">
+              <h3><i class="fas fa-cogs"></i> Execution Results</h3>
+              <div class="panel-actions">
+                <button class="btn-secondary" id="exportResults">
+                  <i class="fas fa-file-export"></i> Export Results
+                </button>
+                <button class="btn-secondary" id="viewCode">
+                  <i class="fas fa-code"></i> View Code
+                </button>
+              </div>
+            </div>
+            <div class="panel-content" id="workflowContent">
+              <div class="empty-state">
+                <i class="fas fa-cogs"></i>
+                <p>Execution results will appear here after analysis</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Query Understanding Panel -->
+          <div class="panel understanding-panel">
+            <div class="panel-header">
+              <h3><i class="fas fa-search"></i> Query Understanding</h3>
+            </div>
+            <div class="panel-content" id="understandingContent">
+              <div class="empty-state">
+                <i class="fas fa-comment-dots"></i>
+                <p>Query analysis will appear here</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Performance Metrics Panel -->
+          <div class="panel metrics-panel">
+            <div class="panel-header">
+              <h3><i class="fas fa-chart-line"></i> Performance Metrics</h3>
+            </div>
+            <div class="panel-content" id="metricsContent">
+              <div class="metrics-grid">
+                <div class="metric-card">
+                  <div class="metric-value" id="processingTime">--</div>
+                  <div class="metric-label">Processing Time</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value" id="confidenceScore">--</div>
+                  <div class="metric-label">Confidence Score</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value" id="workflowSteps">--</div>
+                  <div class="metric-label">Workflow Steps</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-value" id="complexityScore">--</div>
+                  <div class="metric-label">Complexity</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- System Status Panel -->
+          <div class="panel status-panel">
+            <div class="panel-header">
+              <h3><i class="fas fa-server"></i> System Status</h3>
+            </div>
+            <div class="panel-content" id="statusContent">
+              <div class="status-grid">
+                <div class="status-item">
+                  <div class="status-indicator" id="llmStatus"></div>
+                  <span>LLM Engine</span>
+                </div>
+                <div class="status-item">
+                  <div class="status-indicator" id="ragStatus"></div>
+                  <span>RAG System</span>
+                </div>
+                <div class="status-item">
+                  <div class="status-indicator" id="gisStatus"></div>
+                  <span>GIS Engine</span>
+                </div>
+                <div class="status-item">
+                  <div class="status-indicator" id="dbStatus"></div>
+                  <span>Vector DB</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- Modals -->
+      <!-- Settings Modal -->
+      <div class="modal" id="settingsModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>System Settings</h3>
+            <button class="modal-close">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="settings-section">
+              <h4>API Configuration</h4>
+              <div class="form-group">
+                <label>API Base URL</label>
+                <input
+                  type="text"
+                  id="apiBaseUrl"
+                  value="http://localhost:8000"
+                />
+              </div>
+              <div class="form-group">
+                <label>Request Timeout (seconds)</label>
+                <input type="number" id="requestTimeout" value="30" />
+              </div>
+            </div>
+            <div class="settings-section">
+              <h4>Map Configuration</h4>
+              <div class="form-group">
+                <label>Default Map Center</label>
+                <input
+                  type="text"
+                  id="mapCenter"
+                  value="20.5937, 78.9629"
+                  placeholder="lat, lng"
+                />
+              </div>
+              <div class="form-group">
+                <label>Default Zoom Level</label>
+                <input type="number" id="mapZoom" value="5" min="1" max="18" />
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" id="cancelSettings">Cancel</button>
+            <button class="btn-primary" id="saveSettings">Save Settings</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Code Viewer Modal -->
+      <div class="modal" id="codeModal">
+        <div class="modal-content modal-large">
+          <div class="modal-header">
+            <h3>Generated Workflow Code</h3>
+            <button class="modal-close">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="code-tabs">
+              <button class="code-tab active" data-tab="json">
+                JSON Workflow
+              </button>
+              <button class="code-tab" data-tab="python">Python Code</button>
+              <button class="code-tab" data-tab="yaml">YAML Config</button>
+            </div>
+            <div class="code-content">
+              <pre><code id="codeDisplay"></code></pre>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-secondary" id="copyCode">
+              <i class="fas fa-copy"></i> Copy Code
+            </button>
+            <button class="btn-primary" id="downloadCode">
+              <i class="fas fa-download"></i> Download
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Overlay -->
+      <div class="progress-overlay" id="progressOverlay" style="display: none">
+        <div class="progress-content">
+          <div class="progress-spinner"></div>
+          <h3>Processing Query...</h3>
+          <p id="progressMessage">Initializing AI analysis...</p>
+          <div class="progress-steps">
+            <div class="progress-step" id="step1">
+              <i class="fas fa-search"></i>
+              <span>Parsing Query</span>
+            </div>
+            <div class="progress-step" id="step2">
+              <i class="fas fa-brain"></i>
+              <span>Reasoning Analysis</span>
+            </div>
+            <div class="progress-step" id="step3">
+              <i class="fas fa-cogs"></i>
+              <span>Generating Workflow</span>
+            </div>
+            <div class="progress-step" id="step4">
+              <i class="fas fa-check"></i>
+              <span>Complete</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notification Container -->
+      <div class="notification-container" id="notificationContainer"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
